@@ -39,12 +39,12 @@ public class User {
     @OneToOne
     private UserInfo userInfo;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH})
-    @JoinTable(name = "user_magazine",
-            joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "magazine_id"))
-    private List<Magazine> magazines;
+//    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH})
+//    @JoinTable(name = "user_magazine",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//    inverseJoinColumns = @JoinColumn(name = "magazine_id"))
+//    private List<Magazine> magazines;
 
-
-
+    @OneToMany(mappedBy = "user")
+    private List<Subscription> subscriptions;
 }

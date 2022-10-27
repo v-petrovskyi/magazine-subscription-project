@@ -33,4 +33,8 @@ public class Subscription {
 
     @Column
     private double price;
+
+    @Column
+    private int subscriptionTerm;
+
     }

@@ -20,8 +20,11 @@ public class Subscription {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "subscription_date", nullable = false)
-    private LocalDateTime subscriptionDate;
+    @Column(name = "subscription_start_date", nullable = false)
+    private LocalDateTime subscriptionStartDate;
+
+    @Column(name = "subscription_exp_date", nullable = false)
+    private LocalDateTime subscriptionExpDate;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "user_id")
@@ -34,7 +37,10 @@ public class Subscription {
     @Column
     private double price;
 
-    @Column
-    private int subscriptionTerm;
+    @Column(name = "image_path")
+    private String imagePath;
+
+//    @Column(name = "subscription_term_months")
+//    private int subscriptionTerm;
 
     }

@@ -10,7 +10,7 @@ public interface SubscriptionService {
     List<Subscription> getAll();
     List<Subscription> getAllActiveSubscriptions();
     Subscription getById(long id);
-    boolean update(long id, Subscription subscription);
+    boolean update(Subscription subscription);
     boolean delete(long id);
 
 }

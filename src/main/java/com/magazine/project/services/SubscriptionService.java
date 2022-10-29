@@ -1,6 +1,8 @@
 package com.magazine.project.services;
 
+import com.magazine.project.entity.Magazine;
 import com.magazine.project.entity.Subscription;
+import com.magazine.project.entity.User;
 
 import java.util.List;
 
@@ -13,4 +15,5 @@ public interface SubscriptionService {
     boolean update(Subscription subscription);
     boolean delete(long id);
 
+    boolean subscribeUserToMagazine(int term, User user, Magazine magazine);
 }

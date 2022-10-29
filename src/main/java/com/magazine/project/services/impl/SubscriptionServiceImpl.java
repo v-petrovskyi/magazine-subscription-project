@@ -1,9 +1,10 @@
 package com.magazine.project.services.impl;
 
+import com.magazine.project.entity.Magazine;
 import com.magazine.project.entity.Subscription;
+import com.magazine.project.entity.User;
 import com.magazine.project.repositories.SubscriptionRepository;
 import com.magazine.project.services.SubscriptionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -59,5 +60,23 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public boolean delete(long id) {
         subscriptionRepository.delete(getById(id));
         return subscriptionRepository.findById(id).isEmpty();
+    }
+
+    @Override
+    public boolean subscribeUserToMagazine(int term, User user, Magazine magazine) { // todo не впевнений що це має бути тут а не в іншому класі
+        Subscription newSubscription = new Subscription();
+        newSubscription.setMagazine(magazine);
+        newSubscription.setUser(user);
+        newSubscription.setAmount(magazine.getPrice() * term);
+        for (Subscription subscription : user.getSubscriptions()) {
+            if (subscription.getMagazine().getId() == magazine.getId()) {
+                newSubscription.setSubscriptionStartDate(subscription.getSubscriptionExpDate());
+            }
+        }
+        if (newSubscription.getSubscriptionExpDate() == null) {
+            newSubscription.setSubscriptionStartDate(LocalDateTime.now());
+        }
+        newSubscription.setSubscriptionExpDate(newSubscription.getSubscriptionStartDate().plusMonths(term));
+        return add(newSubscription);
     }
 }

@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -47,4 +48,17 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Subscription> subscriptions;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(userName, user.userName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(userInfo, user.userInfo) && Objects.equals(subscriptions, user.subscriptions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userName, email, password, role, userInfo, subscriptions);
+    }
 }

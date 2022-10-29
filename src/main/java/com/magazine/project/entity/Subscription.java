@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -34,13 +35,20 @@ public class Subscription {
     @JoinColumn(name = "magazine_id")
     private Magazine magazine;
 
-    @Column
-    private double price;
+    @Column(scale = 2)
+    private double amount;
 
-    @Column(name = "image_path")
-    private String imagePath;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subscription that = (Subscription) o;
+        return Double.compare(that.amount, amount) == 0 && Objects.equals(id, that.id) && Objects.equals(subscriptionStartDate, that.subscriptionStartDate) && Objects.equals(subscriptionExpDate, that.subscriptionExpDate) && Objects.equals(user, that.user) && Objects.equals(magazine, that.magazine);
+    }
 
-//    @Column(name = "subscription_term_months")
-//    private int subscriptionTerm;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, subscriptionStartDate, subscriptionExpDate, user, magazine, amount);
+    }
 
     }

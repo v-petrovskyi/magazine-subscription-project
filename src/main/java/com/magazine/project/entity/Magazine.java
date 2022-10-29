@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -30,4 +31,19 @@ public class Magazine {
     @Column
     private boolean active;
 
+    @Column(name = "image_path")
+    private String imagePath;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Magazine magazine = (Magazine) o;
+        return id == magazine.id && Double.compare(magazine.price, price) == 0 && active == magazine.active && Objects.equals(title, magazine.title) && Objects.equals(description, magazine.description) && Objects.equals(imagePath, magazine.imagePath);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, price, active, imagePath);
+    }
 }

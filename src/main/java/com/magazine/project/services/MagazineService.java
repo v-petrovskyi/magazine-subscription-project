@@ -16,7 +16,7 @@ public interface MagazineService {
 
     Magazine getByTitle(String title);
 
-    boolean update(long id, Magazine magazine);
+    boolean update(Magazine magazine);
 
     boolean delete(long id);
 

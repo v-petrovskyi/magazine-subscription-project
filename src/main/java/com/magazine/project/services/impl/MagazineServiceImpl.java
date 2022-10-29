@@ -1,44 +1,72 @@
 package com.magazine.project.services.impl;
 
 import com.magazine.project.entity.Magazine;
+import com.magazine.project.repositories.MagazineRepository;
 import com.magazine.project.services.MagazineService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class MagazineServiceImpl implements MagazineService {
+
+    private final MagazineRepository magazineRepository;
+
+    public MagazineServiceImpl(MagazineRepository magazineRepository) {
+        this.magazineRepository = magazineRepository;
+    }
+
     @Override
     public boolean add(Magazine magazine) {
-        return false;
+        Magazine saved = magazineRepository.save(magazine);
+        return saved.getTitle().equals(magazine.getTitle());
     }
 
     @Override
     public List<Magazine> getAll() {
-        return null;
+        List<Magazine> all = magazineRepository.findAll();
+        return all.isEmpty() ? new ArrayList<>() : all;
     }
 
     @Override
     public List<Magazine> getAllActive() {
-        return null;
+        List<Magazine> magazines = magazineRepository.getAllByActiveIsTrue();
+        return magazines.isEmpty() ? new ArrayList<>() : magazines;
     }
 
     @Override
     public Magazine getById(long id) {
-        return null;
+        Optional<Magazine> optionalMagazine = magazineRepository.findById(id);
+        try {
+            return optionalMagazine.orElseThrow();
+        } catch (NoSuchElementException e) {
+            throw new EntityNotFoundException("Magazine with id " + id + " not found");
+        }
     }
 
     @Override
     public Magazine getByTitle(String title) {
-        return null;
+        Optional<Magazine> optionalMagazine = magazineRepository.findByTitle(title);
+        try {
+            return optionalMagazine.orElseThrow();
+        } catch (NoSuchElementException e) {
+            throw new EntityNotFoundException("Magazine with title " + title + " not found");
+        }
     }
 
     @Override
-    public boolean update(long id, Magazine magazine) {
-        return false;
+    public boolean update(Magazine magazine) {
+        return add(magazine);
     }
 
     @Override
     public boolean delete(long id) {
-        return false;
+        magazineRepository.delete(getById(id));
+        return magazineRepository.findById(id).isEmpty();
     }
 }

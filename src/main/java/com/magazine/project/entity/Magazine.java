@@ -24,7 +24,7 @@ public class Magazine {
     @Column
     private String description;
 
-    @Column
+    @Column(scale = 2)
     private double price;
 
     @Column

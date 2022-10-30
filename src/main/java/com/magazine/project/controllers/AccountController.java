@@ -35,9 +35,9 @@ public class AccountController {
     }
 
     @PostMapping("/registration")
-    public String createAccount(@ModelAttribute("user") @Valid User user, BindingResult result){
-        userValidator.validate(user, result);
-        if (result.hasErrors()){
+    public String createAccount(@ModelAttribute("user") @Valid User user, BindingResult bindingResult){
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors()){
             return "account/registration-form";
         }
         user.setRole("USER");

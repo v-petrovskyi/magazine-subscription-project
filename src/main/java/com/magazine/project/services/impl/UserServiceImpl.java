@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findById(id).isEmpty();
     }
 
-    @Override // method for security
+    @Override // method for security from UserDetailsService
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.getUserByUserName(username);
         if (optionalUser.isEmpty()) {

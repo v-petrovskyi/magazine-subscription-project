@@ -1,8 +1,11 @@
 package com.magazine.project.controllers;
 
+import com.magazine.project.security.UserDetailsSecurity;
 import com.magazine.project.services.MagazineService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -15,7 +18,11 @@ public class MainPageController {
 
 
     @GetMapping("/")
-    public String showMainPage(){
+    public String showMainPage(Model model){
+        model.addAttribute("magazines", magazineService.getAllActive());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
+        System.out.println(principal.getUser());
         return "main-page";
     }
 }

@@ -2,8 +2,12 @@ package com.magazine.project.services.impl;
 
 import com.magazine.project.entity.User;
 import com.magazine.project.repositories.UserRepository;
+import com.magazine.project.security.UserDetailsSecurity;
 import com.magazine.project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -11,7 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
@@ -63,5 +67,14 @@ public class UserServiceImpl implements UserService {
     public boolean delete(long id) {
         userRepository.delete(getById(id));
         return userRepository.findById(id).isEmpty();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> optionalUser = userRepository.getUserByUserName(username);
+        if (optionalUser.isEmpty()) {
+            throw new UsernameNotFoundException("User not found!");
+        }
+        return new UserDetailsSecurity(optionalUser.get());
     }
 }

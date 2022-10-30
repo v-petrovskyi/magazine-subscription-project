@@ -1,0 +1,5 @@
+insert into magazine_project.public.magazines(active, price, title, image_path) values (true, 40.5, 'Real Simple - Digital', 'https://i.ibb.co/W3y4pp8/image.png');
+insert into magazine_project.public.magazines(active, price, title, image_path) values (true, 15.5, 'Allrecipes - Digital', 'https://i.ibb.co/ZNfHYcN/image.png');
+insert into magazine_project.public.magazines(active, price, title, image_path) values (true, 40.5, 'PEOPLE - Digital', 'https://i.ibb.co/NmszRWp/image.png');
+insert into magazine_project.public.magazines(active, price, title, image_path) values (true, 20.5, 'Better Homes & Gardens - Digital', 'https://i.ibb.co/nCvB4XQ/image.png');
+insert into magazine_project.public.magazines(active, price, title, image_path) values (true, 21.55, 'People Royals - Digital', 'https://i.ibb.co/pP3yLJH/image.png');

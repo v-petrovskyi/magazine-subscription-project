@@ -17,12 +17,12 @@ public class MainPageController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping({"/", "/home"})
     public String showMainPage(Model model){
         model.addAttribute("magazines", magazineService.getAllActive());
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
-        System.out.println(principal.getUser());
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
+//        System.out.println(principal.getUser());
         return "main-page";
     }
 }

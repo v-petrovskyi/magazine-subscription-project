@@ -5,10 +5,12 @@
     <title>Title</title>
 </head>
 <body>
+<a href="/account/login">login</a>
 <div th:each="magazine: ${magazines}">
     <img th:src="${magazine.imagePath}" width="100">
     <p th:text="${magazine.title}"></p>
     <p th:text="${magazine.price}"></p>
 </div>
+
 </body>
 </html>

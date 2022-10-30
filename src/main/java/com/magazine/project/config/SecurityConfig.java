@@ -28,16 +28,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .authorizeRequests()
-//                .antMatchers("/", "/home")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-                .formLogin().loginPage("/account/login")
-                .loginProcessingUrl("/process_login")
+                .authorizeRequests()
+////                .antMatchers("/", "/home")
+////                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin().loginPage("/account/login-form")
+                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/home", true)
-                .failureUrl("/account/login");
+                .failureUrl("/account/login-form?error=true")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/account/logout")
+                .logoutSuccessUrl("/account/login-form")
+                .deleteCookies("JSESSIONID");
+
     }
 
     @Bean

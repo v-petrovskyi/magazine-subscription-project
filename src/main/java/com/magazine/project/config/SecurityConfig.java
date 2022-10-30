@@ -29,8 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-////                .antMatchers("/", "/home")
-////                .permitAll()
+                .antMatchers("/", "/home", "/account/login-form", "/account/registration","/error")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -44,7 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/account/logout")
                 .logoutSuccessUrl("/account/login-form")
                 .deleteCookies("JSESSIONID");
-
     }
 
     @Bean

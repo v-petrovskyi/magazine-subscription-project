@@ -2,6 +2,7 @@ package com.magazine.project.controllers;
 
 import com.magazine.project.entity.User;
 import com.magazine.project.services.UserService;
+import com.magazine.project.services.impl.UserRegistrationServiceImpl;
 import com.magazine.project.util.UserValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -18,10 +19,12 @@ public class AccountController {
 
     private final UserValidator userValidator;
     private final UserService userService;
+    private final UserRegistrationServiceImpl userRegistrationService;
 
-    public AccountController(UserValidator userValidator, UserService userService) {
+    public AccountController(UserValidator userValidator, UserService userService, UserRegistrationServiceImpl userRegistrationService) {
         this.userValidator = userValidator;
         this.userService = userService;
+        this.userRegistrationService = userRegistrationService;
     }
 
     @GetMapping("/login-form")
@@ -41,7 +44,7 @@ public class AccountController {
             return "account/registration-form";
         }
         user.setRole("USER");
-        userService.add(user);
+        userRegistrationService.register(user);
         return "redirect: /account/login-form";
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MainPageController {
@@ -20,9 +21,14 @@ public class MainPageController {
     @GetMapping({"/", "/home"})
     public String showMainPage(Model model){
         model.addAttribute("magazines", magazineService.getAllActive());
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
-        System.out.println(principal.getUser());
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
+//        System.out.println(principal.getUser());
         return "main-page";
+    }
+
+    @RequestMapping("/access-denied")
+    public String accessDenied(){
+        return "access-denied";
     }
 }

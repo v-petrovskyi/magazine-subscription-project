@@ -19,6 +19,7 @@ public class UserRegistrationServiceImpl {
     @Transactional
     public boolean register(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("ROLE_USER");
         User saved = userRepository.save(user);
         return saved.getEmail().equals(user.getEmail());
     }

@@ -43,7 +43,6 @@ public class AccountController {
         if (bindingResult.hasErrors()){
             return "account/registration-form";
         }
-        user.setRole("USER");
         userRegistrationService.register(user);
         return "redirect: /account/login-form";
     }

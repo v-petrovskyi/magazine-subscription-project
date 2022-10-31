@@ -27,14 +27,14 @@ public class UserValidator implements Validator {
         User user = (User) target;
         try {
             userService.getByUserName(user.getUserName());
+            errors.rejectValue("userName", "", "user with this username already exists");
         } catch (Exception e) {
             try {
                 userService.getByEmail(user.getEmail());
+                errors.rejectValue("email", "", "user with this email already exists");
             } catch (Exception exception) {
                 return;
             }
-            errors.rejectValue("email", "", "user with this email already exists");
         }
-        errors.rejectValue("userName", "", "user with this username already exists");
     }
 }

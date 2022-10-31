@@ -1,5 +1,6 @@
 package com.magazine.project.config;
 
+import com.magazine.project.security.WebAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -8,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -16,11 +16,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userService;
+    private final WebAccessDeniedHandler webAccessDeniedHandler;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userService) {
+    public SecurityConfig(UserDetailsService userService, WebAccessDeniedHandler webAccessDeniedHandler) {
         this.userService = userService;
+        this.webAccessDeniedHandler = webAccessDeniedHandler;
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
@@ -29,12 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/account/login-form", "/account/registration","/error")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/admin/create-magazine").hasRole("ADMIN")
+                .antMatchers("/", "/home", "/account/login-form", "/account/registration", "/error", "/access-denied").permitAll()
+                .anyRequest().hasAnyRole("USER", "ADMIN")
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(webAccessDeniedHandler)
                 .and()
                 .formLogin().loginPage("/account/login-form")
                 .loginProcessingUrl("/login")
@@ -45,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/account/login-form")
-                .deleteCookies("JSESSIONID");
+                .deleteCookies("JSESSIONID")
+                ;
     }
 
     @Bean

@@ -4,10 +4,10 @@ import com.magazine.project.entity.User;
 import com.magazine.project.repositories.UserRepository;
 import com.magazine.project.security.UserDetailsSecurity;
 import com.magazine.project.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
     public boolean add(User user) {
         User saved = userRepository.save(user);
         return saved.getEmail().equals(user.getEmail());

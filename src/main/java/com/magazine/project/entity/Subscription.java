@@ -21,6 +21,8 @@ public class Subscription {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "subscription_date", nullable = false)
+    private LocalDateTime subscriptionDate;
     @Column(name = "subscription_start_date", nullable = false)
     private LocalDateTime subscriptionStartDate;
 

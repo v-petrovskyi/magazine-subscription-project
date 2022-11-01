@@ -65,6 +65,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public boolean subscribeUserToMagazine(int term, User user, Magazine magazine) { // todo не впевнений що це має бути тут а не в іншому класі
         Subscription newSubscription = new Subscription();
+        newSubscription.setSubscriptionDate(LocalDateTime.now());
         newSubscription.setMagazine(magazine);
         newSubscription.setUser(user);
         newSubscription.setAmount(magazine.getPrice() * term);

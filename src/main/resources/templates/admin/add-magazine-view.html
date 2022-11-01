@@ -6,5 +6,25 @@
 </head>
 <body>
 Add magazine
+
+<form th:method="POST" th:action="@{/admin/create-magazine}" th:object="${magazine}">
+    <label for="title">Title</label>
+    <input type="text" th:field="*{title}" id="title">
+    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title error</div>
+    <label for="description">Description</label>
+    <input type="text" th:field="*{description}" id="description">
+    <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</div>
+    <label for="price">Price</label>
+    <input type="number" th:field="*{price}" id="price">
+    <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
+    <label for="active">Active</label>
+    <select name="active" id="active">
+        <option value="true" selected>TRUE</option>
+        <option value="false">FALSE</option>
+    </select>
+    <label for="imagePath">Image path</label>
+    <input type="text" th:field="*{imagePath}" id="imagePath">
+    <input type="submit" value="Create">
+</form>
 </body>
 </html>

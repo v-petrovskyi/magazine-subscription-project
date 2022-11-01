@@ -1,5 +1,6 @@
 package com.magazine.project.controllers;
 
+import com.magazine.project.entity.User;
 import com.magazine.project.security.UserDetailsSecurity;
 import com.magazine.project.services.MagazineService;
 import org.springframework.security.core.Authentication;
@@ -19,16 +20,22 @@ public class MainPageController {
 
 
     @GetMapping({"/", "/home"})
-    public String showMainPage(Model model){
+    public String showMainPage(Model model) {
         model.addAttribute("magazines", magazineService.getAllActive());
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
-//        System.out.println(principal.getUser());
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
+            User user = principal.getUser();
+//            System.out.println(user); // todo прибрати в майбутньому
+            model.addAttribute("user", user);
+        } catch (Exception e) {
+            model.addAttribute("user", "null");
+        }
         return "main-page";
     }
 
     @RequestMapping("/access-denied")
-    public String accessDenied(){
+    public String accessDenied() {
         return "access-denied";
     }
 }

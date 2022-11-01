@@ -4,6 +4,7 @@ import com.magazine.project.security.WebAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userService;
@@ -34,8 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin/create-magazine").hasRole("ADMIN")
-                .antMatchers("/", "/home", "/account/login-form", "/account/registration", "/error", "/access-denied").permitAll()
+                .antMatchers("/", "/home", "/account/**", "/error", "/access-denied").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
                 .exceptionHandling()
@@ -51,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/account/login-form")
                 .deleteCookies("JSESSIONID")
-                ;
+        ;
     }
 
     @Bean

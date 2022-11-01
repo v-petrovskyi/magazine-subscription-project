@@ -15,7 +15,7 @@ Add magazine
     <input type="text" th:field="*{description}" id="description">
     <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</div>
     <label for="price">Price</label>
-    <input type="number" th:field="*{price}" id="price">
+    <input th:value="${#numbers.formatDecimal(magazine.price, 0, 'COMMA', 2, 'POINT')}" type="text" th:field="*{price}" id="price">
     <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
     <label for="active">Active</label>
     <select name="active" id="active">

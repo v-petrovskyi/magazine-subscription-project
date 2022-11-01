@@ -46,4 +46,17 @@ public class Magazine {
     public int hashCode() {
         return Objects.hash(id, title, description, price, active, imagePath);
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Magazine{");
+        sb.append("id=").append(id);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", price=").append(price);
+        sb.append(", active=").append(active);
+        sb.append(", imagePath='").append(imagePath).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

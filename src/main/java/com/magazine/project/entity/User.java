@@ -40,12 +40,6 @@ public class User {
     @OneToOne
     private UserInfo userInfo;
 
-//    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH})
-//    @JoinTable(name = "user_magazine",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//    inverseJoinColumns = @JoinColumn(name = "magazine_id"))
-//    private List<Magazine> magazines;
-
     @OneToMany(mappedBy = "user")
     private List<Subscription> subscriptions;
 
@@ -60,5 +54,17 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, userName, email, password, role, userInfo, subscriptions);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("id=").append(id);
+        sb.append(", userName='").append(userName).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", role='").append(role).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

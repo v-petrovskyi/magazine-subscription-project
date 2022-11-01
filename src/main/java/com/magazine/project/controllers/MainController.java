@@ -9,16 +9,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 @Slf4j
 @Controller
-public class MainPageController {
+public class MainController {
     private final MagazineService magazineService;
 
-    public MainPageController(MagazineService magazineService) {
+    public MainController(MagazineService magazineService) {
         this.magazineService = magazineService;
     }
-
 
     @GetMapping({"/", "/home"})
     public String showMainPage(Model model) {
@@ -28,7 +29,6 @@ public class MainPageController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
             User user = principal.getUser();
-//            System.out.println(user); // todo прибрати в майбутньому
             model.addAttribute("user", user);
             log.info(user.toString());
         } catch (Exception e) {
@@ -36,6 +36,17 @@ public class MainPageController {
             log.info("unauthorized user");
         }
         return "main-page";
+    }
+
+    @GetMapping("/magazine/{id}")
+    public String showMagazinePage(@PathVariable String id, Model model) throws Exception {
+        try {
+            model.addAttribute("magazine", magazineService.getById(Long.parseLong(id)));
+            return "magazine-page-view";
+        } catch (NumberFormatException e) {
+            log.error(e.getMessage());
+            throw new Exception("id is not correct");
+        }
     }
 
     @RequestMapping("/access-denied")

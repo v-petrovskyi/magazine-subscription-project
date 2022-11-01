@@ -10,6 +10,8 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
+<div th:replace="header"></div>
+
 <div th:if="${user=='null'}">
     <a th:href="@{/account/login-form}">login</a>
     <a th:href="@{/account/registration}">Create account</a>
@@ -23,9 +25,11 @@
 
 
 <div th:each="magazine: ${magazines}">
-    <img th:src="${magazine.imagePath}" width="200">
-    <p th:text="${magazine.title}"></p>
-    <p th:text="${magazine.price}"></p>
+    <a th:href="@{/magazine/{id}(id=${magazine.id})}">
+        <img th:src="${magazine.imagePath}" width="200">
+        <p th:text="${magazine.title}"></p>
+        <p th:text="${magazine.price}"></p>
+    </a>
 </div>
 
 </body>

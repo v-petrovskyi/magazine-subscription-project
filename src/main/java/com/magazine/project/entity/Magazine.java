@@ -22,7 +22,7 @@ public class Magazine {
     @Column(unique = true, nullable = false)
     private String title;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(scale = 2)

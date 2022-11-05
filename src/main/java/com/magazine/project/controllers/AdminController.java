@@ -46,4 +46,9 @@ public class AdminController {
         log.info(magazine.toString());
         return "redirect:/home";
     }
+
+    @GetMapping("/admin-page")
+    public String showAdminPage(){
+        return "admin/admin-page";
+    }
 }

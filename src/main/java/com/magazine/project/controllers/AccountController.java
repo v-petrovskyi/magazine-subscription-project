@@ -52,6 +52,6 @@ public class AccountController {
         }
         userRegistrationService.register(user);
         log.info("register user {}", user);
-        return "redirect: /account/login-form";
+        return "redirect:/account/login-form";
     }
 }

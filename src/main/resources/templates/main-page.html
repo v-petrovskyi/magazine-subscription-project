@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,37 +13,21 @@
 <body>
 <div th:replace="~{fragments::nav-panel}"></div>
 
-<div sec:authorize="isAuthenticated()">
-    <a th:text="${#authentication.getPrincipal().getUser().getUserName()}" th:href="@{/user/info}"></a>
-    <form th:action="@{/logout}" th:method="POST">
-        <input type="submit" value="Logout">
-    </form>
-</div>
-
-<div sec:authorize="isAnonymous()">
-    <a th:href="@{/account/login-form}">login</a>
-    <a th:href="@{/account/registration}">Create account</a>
-</div>
-
-<!--<div th:if="${user=='null'}">-->
-<!--    <a th:href="@{/account/login-form}">login</a>-->
-<!--    <a th:href="@{/account/registration}">Create account</a>-->
-<!--</div>-->
-<!--<div th:unless="${user=='null'}">-->
-<!--    <a th:href="@{/user/info}" th:text="${user.userName}"></a>-->
-<!--    <form th:action="@{/logout}" th:method="POST">-->
-<!--        <input type="submit" value="Logout">-->
-<!--    </form>-->
-<!--</div>-->
-
-
 <div th:each="magazine: ${magazines}">
-    <a th:href="@{/magazine/{id}(id=${magazine.id})}">
-        <img th:src="${magazine.imagePath}" width="200">
-        <p th:text="${magazine.title}"></p>
-        <p th:text="${magazine.price}"></p>
-    </a>
+    <br>
+    <div class="d-flex position-relative">
+        <img th:src="${magazine.imagePath}" width="200" class="flex-shrink-0 me-3" alt="...">
+        <div>
+            <h5 class="mt-0" th:text="${magazine.title}">Custom component with stretched link</h5>
+            <p th:text="${magazine.description}">This is some placeholder content for the custom component. It is
+                intended to mimic what some real-world content would look like, and we're using it here to give the
+                component a bit of body and size.</p>
+            <p th:text="${magazine.price} + ' EUR'">price</p>
+            <a th:href="@{/magazine/{id}(id=${magazine.id})}" class="stretched-link">Go somewhere</a>
+        </div>
+    </div>
 </div>
+
 
 </body>
 </html>

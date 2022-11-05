@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,18 +12,30 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<div th:replace="header"></div>
+<div th:replace="~{fragments::nav-panel}"></div>
 
-<div th:if="${user=='null'}">
-    <a th:href="@{/account/login-form}">login</a>
-    <a th:href="@{/account/registration}">Create account</a>
-</div>
-<div th:unless="${user=='null'}">
-    <a th:href="@{/user/info}" th:text="${user.userName}"></a>
+<div sec:authorize="isAuthenticated()">
+    <a th:text="${#authentication.getPrincipal().getUser().getUserName()}" th:href="@{/user/info}"></a>
     <form th:action="@{/logout}" th:method="POST">
         <input type="submit" value="Logout">
     </form>
 </div>
+
+<div sec:authorize="isAnonymous()">
+    <a th:href="@{/account/login-form}">login</a>
+    <a th:href="@{/account/registration}">Create account</a>
+</div>
+
+<!--<div th:if="${user=='null'}">-->
+<!--    <a th:href="@{/account/login-form}">login</a>-->
+<!--    <a th:href="@{/account/registration}">Create account</a>-->
+<!--</div>-->
+<!--<div th:unless="${user=='null'}">-->
+<!--    <a th:href="@{/user/info}" th:text="${user.userName}"></a>-->
+<!--    <form th:action="@{/logout}" th:method="POST">-->
+<!--        <input type="submit" value="Logout">-->
+<!--    </form>-->
+<!--</div>-->
 
 
 <div th:each="magazine: ${magazines}">

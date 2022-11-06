@@ -13,21 +13,20 @@
 <body>
 <div th:replace="~{fragments::nav-panel}"></div>
 
-<div th:each="magazine: ${magazines}">
-    <br>
-    <div class="d-flex position-relative">
-        <img th:src="${magazine.imagePath}" width="200" class="flex-shrink-0 me-3" alt="...">
-        <div>
-            <h5 class="mt-0" th:text="${magazine.title}">Custom component with stretched link</h5>
-            <p th:text="${magazine.description}">This is some placeholder content for the custom component. It is
-                intended to mimic what some real-world content would look like, and we're using it here to give the
-                component a bit of body and size.</p>
-            <p th:text="${magazine.price} + ' EUR'">price</p>
-            <a th:href="@{/magazine/{id}(id=${magazine.id})}" class="stretched-link">Go somewhere</a>
+<div class="">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" th:each="magazine: ${magazines}">
+            <div class="card h-100">
+                <img th:src="${magazine.imagePath}" width="250" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${magazine.title}">Card title</h5>
+                    <p th:text="${magazine.price} + ' EUR'">price</p>
+                    <a th:href="@{/magazine/{id}(id=${magazine.id})}" class="stretched-link">Go somewhere</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 
 </body>
 </html>

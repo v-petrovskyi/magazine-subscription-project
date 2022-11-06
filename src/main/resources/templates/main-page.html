@@ -11,17 +11,18 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<div th:replace="~{fragments::nav-panel}"></div>
-
-<div class="">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col" th:each="magazine: ${magazines}">
-            <div class="card h-100">
-                <img th:src="${magazine.imagePath}" width="250" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${magazine.title}">Card title</h5>
-                    <p th:text="${magazine.price} + ' EUR'">price</p>
-                    <a th:href="@{/magazine/{id}(id=${magazine.id})}" class="stretched-link">Go somewhere</a>
+<div class="container">
+    <div th:replace="~{fragments::nav-panel}"></div>
+    <div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="magazine: ${magazines}">
+                <div class="card h-100">
+                    <img th:src="${magazine.imagePath}" width="250" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${magazine.title}">Card title</h5>
+                        <p th:text="${magazine.price} + ' EUR'">price</p>
+                        <a th:href="@{/magazine/{id}(id=${magazine.id})}" class="stretched-link">Go somewhere</a>
+                    </div>
                 </div>
             </div>
         </div>

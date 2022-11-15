@@ -1,34 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Add magazine</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-<div th:replace="~{fragments::nav-panel}"></div>
+<div class="container">
+    <div th:replace="~{fragments::nav-panel}"></div>
 
-Add magazine
+    Add magazine
 
-<form th:method="POST" th:action="@{/admin/create-magazine}" th:object="${magazine}">
-    <label for="title">Title</label>
-    <input type="text" th:field="*{title}" id="title">
-    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title error</div>
-    <label for="description">Description</label>
-    <input type="text" th:field="*{description}" id="description">
-    <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</div>
-    <label for="price">Price</label>
-    <input th:value="${#numbers.formatDecimal(magazine.price, 0, 'COMMA', 2, 'POINT')}" type="text" th:field="*{price}" id="price">
-    <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
-    <label for="active">Active</label>
-    <select name="active" id="active">
-        <option value="true" selected>TRUE</option>
-        <option value="false">FALSE</option>
-    </select>
-    <label for="imagePath">Image path</label>
-    <input type="text" th:field="*{imagePath}" id="imagePath">
-    <input type="submit" value="Create">
-</form>
+    <form th:method="POST" th:action="@{/admin/create-magazine}" th:object="${magazine}">
+        <label for="title">Title</label>
+        <input type="text" th:field="*{title}" id="title">
+        <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title error</div>
+        <label for="description">Description</label>
+        <input type="text" th:field="*{description}" id="description">
+        <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description
+            error
+        </div>
+        <label for="price">Price</label>
+        <input th:value="${#numbers.formatDecimal(magazine.price, 0, 'COMMA', 2, 'POINT')}" type="text"
+               th:field="*{price}" id="price">
+        <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
+        <label for="active">Active</label>
+        <select name="active" id="active">
+            <option value="true" selected>TRUE</option>
+            <option value="false">FALSE</option>
+        </select>
+        <label for="imagePath">Image path</label>
+        <input type="text" th:field="*{imagePath}" id="imagePath">
+        <input type="submit" value="Create">
+    </form>
+
+    <div th:replace="~{fragments::footer}"></div>
+
+</div>
 </body>
 </html>

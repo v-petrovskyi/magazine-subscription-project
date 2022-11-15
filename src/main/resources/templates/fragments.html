@@ -42,7 +42,9 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" th:href="@{/user/info}">User info</a></li>
-                            <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item" th:href="@{/admin/admin-page}">Admin page</a></li>
+                            <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"
+                                                                         th:href="@{/admin/admin-page}">Admin page</a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -69,18 +71,11 @@
 <div xmlns:th="http://www.thymeleaf.org"
      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
      th:fragment="footer">
-    <div class="card border-light text-center">
-<!--        <div class="card-header">-->
-<!--            Featured-->
-<!--        </div>-->
-        <div class="card-body">
-            <h5 class="card-title">Created by Volodymyr Petrovskyi 2022</h5>
+    <footer class="footer fixed-bottom text-lg-start bg-light text-muted">
+        <div class="text-center p-4">
+            <p class="card-title">Created by Volodymyr Petrovskyi 2022</p>
             <p class="card-text">volodymyr.petrovskyi@gmail.com</p>
-<!--            <a href="#" class="btn btn-primary">Go somewhere</a>-->
         </div>
-<!--        <div class="card-footer text-muted">-->
-<!--            2 days ago-->
-<!--        </div>-->
-    </div>
+    </footer>
 </div>
 

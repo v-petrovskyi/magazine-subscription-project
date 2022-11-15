@@ -13,6 +13,7 @@
 <body>
 <div class="container">
     <div th:replace="~{fragments::nav-panel}"></div>
+    <br>
     <div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col" th:each="magazine: ${magazines}">
@@ -27,7 +28,9 @@
             </div>
         </div>
     </div>
+    <footer>
+        <div th:replace="~{fragments::footer}"></div>
+    </footer>
 </div>
-
 </body>
 </html>

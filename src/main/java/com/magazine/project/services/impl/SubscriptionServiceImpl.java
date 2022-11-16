@@ -94,13 +94,19 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         newSubscription.setMagazine(magazine);
         newSubscription.setUser(user);
         newSubscription.setAmount(magazine.getPrice() * term);
-        for (Subscription subscription : user.getSubscriptions()) {
-            if (subscription.getMagazine().getId() == magazine.getId()) {
-                newSubscription.setSubscriptionStartDate(subscription.getSubscriptionExpDate());
+        Optional<Subscription> expDateDesc = subscriptionRepository.findFirstByUserAndMagazineOrderBySubscriptionExpDateDesc(user, magazine);
+        try {
+            LocalDateTime expDate = expDateDesc.orElseThrow().getSubscriptionExpDate();
+            if(expDate.isAfter(LocalDateTime.now())){
+                newSubscription.setSubscriptionStartDate(expDate);
+            } else {
+                newSubscription.setSubscriptionStartDate(LocalDateTime.now());
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        if (newSubscription.getSubscriptionExpDate() == null) {
-            newSubscription.setSubscriptionStartDate(LocalDateTime.now());
+        if(newSubscription.getSubscriptionStartDate()==null){
+            newSubscription.setSubscriptionStartDate(LocalDateTime.now()); // todo потрібно рефакторити бо вище є повтор коду в try блоці
         }
         newSubscription.setSubscriptionExpDate(newSubscription.getSubscriptionStartDate().plusMonths(term));
         return add(newSubscription);

@@ -3,13 +3,14 @@ package com.magazine.project.services.impl;
 import com.magazine.project.entity.UserInfo;
 import com.magazine.project.repositories.UserInfoRepository;
 import com.magazine.project.services.UserInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
+@Slf4j
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
 
@@ -47,6 +48,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public boolean delete(long id) {
+        log.info("delete user id = {}",id);
         userInfoRepository.delete(getById(id));
         return userInfoRepository.findById(id).isEmpty();
     }

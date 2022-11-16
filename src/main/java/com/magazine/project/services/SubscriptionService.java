@@ -15,5 +15,5 @@ public interface SubscriptionService {
     boolean update(Subscription subscription);
     boolean delete(long id);
 
-    boolean subscribeUserToMagazine(int term, User user, Magazine magazine);
+    boolean subscribeUserToMagazine(int term, long userId, long magazineId);
 }

@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Magazine</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-            crossorigin="anonymous"></script>
+    <!--
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                crossorigin="anonymous"></script>
+    -->
 </head>
 <body>
 <div class="container">
 
     <div th:replace="~{fragments::nav-panel}"></div>
-
 
     <!--<img th:src="${magazine.imagePath}" width="200">-->
     <!--<p th:text="${magazine.title}"></p>-->
@@ -31,10 +33,50 @@
                 intended to mimic what some real-world content would look like, and we're using it here to give the
                 component a bit of body and size.</p>
             <p th:text="${magazine.price} + ' EUR'">price</p>
+            <p sec:authorize="isAnonymous()">LogIn to subscribe</p>
+            <div sec:authorize="isAuthenticated()">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    Subscribe
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Subscribe</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form name="f" method="post" th:action="@{/user/subscribe}">
+                                    <div th:if="${param.error}" style="color: red">
+                                        Incorrect value
+                                    </div>
+                                    <input type="hidden" th:value="${magazine.id}" th:name="magazine_id">
+                                    <label for="month">Term of subscription:</label>
+                                    <input type="number" name="month" id="month"/>
+                                    <input type="submit" value="Subscribe">
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+<!--                                <button type="button" class="btn btn-primary">Understood</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!--        <a th:href="@{/magazine/{id}(id=${magazine.id})}" class="stretched-link">Go somewhere</a>-->
         </div>
     </div>
     <div th:replace="~{fragments::footer}"></div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
 </body>
 </html>

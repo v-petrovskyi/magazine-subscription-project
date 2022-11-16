@@ -4,7 +4,11 @@ import com.magazine.project.entity.Magazine;
 import com.magazine.project.entity.Subscription;
 import com.magazine.project.entity.User;
 import com.magazine.project.repositories.SubscriptionRepository;
+import com.magazine.project.services.MagazineService;
 import com.magazine.project.services.SubscriptionService;
+import com.magazine.project.services.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -13,13 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
+@Slf4j
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 
+    private final MagazineService magazineService;
+    private final UserService userService;
     private final SubscriptionRepository subscriptionRepository;
-
-    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository) {
+    @Autowired
+    public SubscriptionServiceImpl(MagazineService magazineService, UserService userService, SubscriptionRepository subscriptionRepository) {
+        this.magazineService = magazineService;
+        this.userService = userService;
         this.subscriptionRepository = subscriptionRepository;
     }
 
@@ -63,7 +71,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public boolean subscribeUserToMagazine(int term, User user, Magazine magazine) { // todo не впевнений що це має бути тут а не в іншому класі
+    public boolean subscribeUserToMagazine(int term, long userId, long magazineId) { // todo не впевнений що це має бути тут а не в іншому класі
+        log.info("subscribeUserToMagazine");
+        log.info(String.valueOf(term));
+        log.info(String.valueOf(userId));
+        log.info(String.valueOf(magazineId));
+        Magazine magazine = magazineService.getById(magazineId);
+        User user = userService.getById(userId);
         Subscription newSubscription = new Subscription();
         newSubscription.setSubscriptionDate(LocalDateTime.now());
         newSubscription.setMagazine(magazine);

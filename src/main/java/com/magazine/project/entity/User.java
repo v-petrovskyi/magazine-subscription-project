@@ -62,7 +62,7 @@ public class User {
         sb.append("id=").append(id);
         sb.append(", userName='").append(userName).append('\'');
         sb.append(", email='").append(email).append('\'');
-        sb.append(", password='").append(password).append('\'');
+//        sb.append(", password='").append(password).append('\'');
         sb.append(", role='").append(role).append('\'');
         sb.append('}');
         return sb.toString();

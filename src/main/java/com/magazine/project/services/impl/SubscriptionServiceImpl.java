@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
 @Slf4j
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
@@ -24,6 +25,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final MagazineService magazineService;
     private final UserService userService;
     private final SubscriptionRepository subscriptionRepository;
+
     @Autowired
     public SubscriptionServiceImpl(MagazineService magazineService, UserService userService, SubscriptionRepository subscriptionRepository) {
         this.magazineService = magazineService;
@@ -68,6 +70,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public boolean delete(long id) {
         subscriptionRepository.delete(getById(id));
         return subscriptionRepository.findById(id).isEmpty();
+    }
+
+    @Override
+    public List<Subscription> getAllByUser(long userId) {
+        log.info("method getAllByUser");
+        log.info("user id = {}", userId);
+        User user = userService.getById(userId);
+        List<Subscription> allByUser = subscriptionRepository.getAllByUser(user);
+        return allByUser.isEmpty() ? new ArrayList<>() : allByUser;
     }
 
     @Override

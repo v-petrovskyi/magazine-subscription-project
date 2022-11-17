@@ -33,7 +33,10 @@
                 intended to mimic what some real-world content would look like, and we're using it here to give the
                 component a bit of body and size.</p>
             <p th:text="${magazine.price} + ' EUR'">price</p>
-            <p sec:authorize="isAnonymous()">LogIn to subscribe</p>
+            <p sec:authorize="isAnonymous()">
+                <a class="nav-link active" aria-current="page" th:href="@{/account/login-form}">Log In to subscribe</a>
+            </p>
+
             <div sec:authorize="isAuthenticated()">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">

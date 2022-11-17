@@ -1,11 +1,12 @@
 package com.magazine.project.controllers;
 
-import com.magazine.project.entity.Magazine;
 import com.magazine.project.entity.Subscription;
 import com.magazine.project.entity.User;
+import com.magazine.project.entity.UserInfo;
 import com.magazine.project.security.UserDetailsSecurity;
 import com.magazine.project.services.MagazineService;
 import com.magazine.project.services.SubscriptionService;
+import com.magazine.project.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,11 +24,14 @@ import java.util.List;
 public class UserController {
     private final SubscriptionService subscriptionService;
     private final MagazineService magazineService;
+    private final UserService userService;
+
 
     @Autowired
-    public UserController(SubscriptionService subscriptionService, MagazineService magazineService) {
+    public UserController(SubscriptionService subscriptionService, MagazineService magazineService, UserService userService) {
         this.subscriptionService = subscriptionService;
         this.magazineService = magazineService;
+        this.userService = userService;
     }
 
     @GetMapping("/info")
@@ -35,10 +39,25 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
         User user = principal.getUser();
-        List<Subscription> allByUser = subscriptionService.getAllByUser(user.getId());
-        model.addAttribute("subscriptions", allByUser);
+        User userFromDB = userService.getById(user.getId());
+        if (userFromDB.getUserInfo()==null){
+            userFromDB.setUserInfo(new UserInfo());
+        }
+        model.addAttribute("user", userFromDB);
+//        model.addAttribute("user-info", u)
         return "user/info";
     }
+
+    @GetMapping("/subscriptions")
+    public String showUserSubscriptions(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
+        User user = principal.getUser();
+        List<Subscription> allByUser = subscriptionService.getAllByUser(user.getId());
+        model.addAttribute("subscriptions", allByUser);
+        return "user/user-subscriptions-view";
+    }
+
 
     @PostMapping("/subscribe")
     public String subscribeToMagazine(@RequestParam("month") int month,

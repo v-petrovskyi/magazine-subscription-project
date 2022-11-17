@@ -34,7 +34,7 @@
                 component a bit of body and size.</p>
             <p th:text="${magazine.price} + ' EUR'">price</p>
             <p sec:authorize="isAnonymous()">
-                <a class="nav-link active" aria-current="page" th:href="@{/account/login-form}">Log In to subscribe</a>
+                <a class="nav-link active" style="color: red" aria-current="page" th:href="@{/account/login-form}">Log In to subscribe</a>
             </p>
 
             <div sec:authorize="isAuthenticated()">

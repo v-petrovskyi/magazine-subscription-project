@@ -1,6 +1,7 @@
 package com.magazine.project.services.impl;
 
 import com.magazine.project.entity.User;
+import com.magazine.project.entity.UserInfo;
 import com.magazine.project.repositories.UserRepository;
 import com.magazine.project.security.UserDetailsSecurity;
 import com.magazine.project.services.UserService;
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public boolean add(User user) {
+        if (user.getUserInfo() == null) {
+            user.setUserInfo(new UserInfo());
+        }
         User saved = userRepository.save(user);
         return saved.getEmail().equals(user.getEmail());
     }

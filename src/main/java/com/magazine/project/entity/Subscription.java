@@ -53,4 +53,4 @@ public class Subscription {
         return Objects.hash(id, subscriptionStartDate, subscriptionExpDate, user, magazine, amount);
     }
 
-    }
+}

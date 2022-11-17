@@ -42,8 +42,8 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" th:href="@{/user/info}">User info</a></li>
-                            <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"
-                                                                         th:href="@{/admin/admin-page}">Admin page</a>
+                            <li><a class="dropdown-item" th:href="@{/user/subscriptions}">User subscriptions</a></li>
+                            <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item" th:href="@{/admin/admin-page}">Admin page</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">

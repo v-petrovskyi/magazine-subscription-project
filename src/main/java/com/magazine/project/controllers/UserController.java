@@ -51,6 +51,6 @@ public class UserController {
         User user = principal.getUser();
 //        Magazine magazine = magazineService.getById(magazineId);
         subscriptionService.subscribeUserToMagazine(month, user.getId(), magazineId);
-        return "redirect:/home";
+        return "redirect:/user/info";
     }
 }

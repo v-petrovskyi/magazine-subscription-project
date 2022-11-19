@@ -5,6 +5,7 @@ import com.magazine.project.dto.UserDtoTransfer;
 import com.magazine.project.entity.Subscription;
 import com.magazine.project.entity.User;
 import com.magazine.project.entity.UserInfo;
+import com.magazine.project.exception.WrongTermException;
 import com.magazine.project.security.UserDetailsSecurity;
 import com.magazine.project.services.MagazineService;
 import com.magazine.project.services.SubscriptionService;
@@ -79,8 +80,9 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();
         User user = principal.getUser();
-//        Magazine magazine = magazineService.getById(magazineId);
-        subscriptionService.subscribeUserToMagazine(month, user.getId(), magazineId);
+        if (!subscriptionService.subscribeUserToMagazine(month, user.getId(), magazineId)){
+            throw new WrongTermException("something was wrong");
+        }
         return "redirect:/user/info";
     }
 

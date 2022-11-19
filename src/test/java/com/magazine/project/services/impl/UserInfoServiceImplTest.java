@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.Month;

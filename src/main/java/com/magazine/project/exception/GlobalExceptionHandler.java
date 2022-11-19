@@ -1,4 +1,4 @@
-package com.magazine.project.exeption;
+package com.magazine.project.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

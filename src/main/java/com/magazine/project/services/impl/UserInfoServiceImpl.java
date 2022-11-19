@@ -4,9 +4,7 @@ import com.magazine.project.entity.UserInfo;
 import com.magazine.project.repositories.UserInfoRepository;
 import com.magazine.project.services.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Optional;

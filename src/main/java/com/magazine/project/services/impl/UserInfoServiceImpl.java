@@ -5,6 +5,7 @@ import com.magazine.project.repositories.UserInfoRepository;
 import com.magazine.project.services.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import javax.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -48,13 +49,14 @@ public class UserInfoServiceImpl implements UserInfoService {
     public boolean update(UserInfo userInfo) {
         log.info("method update(UserInfo userInfo)");
         log.info(userInfo.toString());
-        return add(userInfo);
+        UserInfo saved = userInfoRepository.save(userInfo);
+        return userInfo.equals(saved);
     }
 
     @Override
     public boolean delete(long id) {
         log.info("method delete(long id), id = {}", id);
-        userInfoRepository.delete(getById(id));
+        userInfoRepository.delete(userInfoRepository.findById(id).get());
         return userInfoRepository.findById(id).isEmpty();
     }
 }

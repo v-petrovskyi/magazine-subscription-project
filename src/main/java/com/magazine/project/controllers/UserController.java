@@ -44,7 +44,8 @@ public class UserController {
         if (userFromDB.getUserInfo() == null) {
             userFromDB.setUserInfo(new UserInfo());
         }
-        UserDto userDto = UserDtoTransfer.convertUserToUserDto(userFromDB);
+        userService.update(userFromDB);
+        UserDto userDto = UserDtoTransfer.convertUserToUserDto(getUser());
         model.addAttribute("user", userDto);
         return "user/info";
     }

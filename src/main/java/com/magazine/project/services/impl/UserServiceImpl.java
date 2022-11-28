@@ -1,7 +1,6 @@
 package com.magazine.project.services.impl;
 
 import com.magazine.project.entity.User;
-import com.magazine.project.entity.UserInfo;
 import com.magazine.project.repositories.UserRepository;
 import com.magazine.project.security.UserDetailsSecurity;
 import com.magazine.project.services.UserService;
@@ -9,10 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -30,9 +26,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public boolean add(User user) {
         log.info("method add");
         log.info(user.toString());
-        if (user.getUserInfo() == null) {
-            user.setUserInfo(new UserInfo());
-        }
         User saved = userRepository.save(user);
         return saved.getEmail().equals(user.getEmail());
     }

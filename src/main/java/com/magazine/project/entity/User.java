@@ -37,7 +37,7 @@ public class User {
     @Column(nullable = false)
     private String role;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private UserInfo userInfo;
 
     @OneToMany(mappedBy = "user")

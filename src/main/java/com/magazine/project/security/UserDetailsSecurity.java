@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 @Slf4j
 public class UserDetailsSecurity implements UserDetails {
@@ -61,5 +62,18 @@ public class UserDetailsSecurity implements UserDetails {
 
     public User getUser() {
         return this.user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDetailsSecurity that = (UserDetailsSecurity) o;
+        return Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user);
     }
 }

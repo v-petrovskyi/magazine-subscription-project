@@ -84,7 +84,7 @@ public class UserController {
         if (!subscriptionService.subscribeUserToMagazine(month, user.getId(), magazineId)){
             throw new WrongTermException("something was wrong");
         }
-        return "redirect:/user/info";
+        return "redirect:/user/subscriptions";
     }
 
     private User getUser() {

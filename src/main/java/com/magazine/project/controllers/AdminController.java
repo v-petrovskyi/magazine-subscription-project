@@ -55,7 +55,7 @@ public class AdminController {
         model.addAttribute("allSubscriptions", subscriptionService.getAll());
         log.info("method showAllSubscriptionsPage");
 
-        return "admin/all-subsriptions-view";
+        return "admin/all-subscriptions-view";
     }
 
     @GetMapping("/admin-page")

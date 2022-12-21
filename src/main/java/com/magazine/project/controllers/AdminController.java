@@ -3,6 +3,7 @@ package com.magazine.project.controllers;
 import com.magazine.project.entity.Magazine;
 import com.magazine.project.services.MagazineService;
 
+import com.magazine.project.services.SubscriptionService;
 import com.magazine.project.util.MagazineValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -20,10 +21,12 @@ import javax.validation.Valid;
 @RequestMapping("/admin")
 public class AdminController {
     private final MagazineService magazineService;
+    private final SubscriptionService subscriptionService;
     private final MagazineValidator magazineValidator;
 
-    public AdminController(MagazineService magazineService, MagazineValidator magazineValidator) {
+    public AdminController(MagazineService magazineService, SubscriptionService subscriptionService, MagazineValidator magazineValidator) {
         this.magazineService = magazineService;
+        this.subscriptionService = subscriptionService;
         this.magazineValidator = magazineValidator;
     }
 
@@ -45,6 +48,14 @@ public class AdminController {
         magazineService.add(magazine);
         log.info(magazine.toString());
         return "redirect:/home";
+    }
+
+    @GetMapping("/all-subscriptions")
+    public String showAllSubscriptionsPage(Model model){
+        model.addAttribute("allSubscriptions", subscriptionService.getAll());
+        log.info("method showAllSubscriptionsPage");
+
+        return "admin/all-subsriptions-view";
     }
 
     @GetMapping("/admin-page")

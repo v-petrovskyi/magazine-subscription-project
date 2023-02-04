@@ -1,0 +1,1 @@
+CREATE DATABASE magazine_project;

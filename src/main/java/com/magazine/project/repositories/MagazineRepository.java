@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface MagazineRepository extends JpaRepository<Magazine, Long> {
-    List<Magazine> getAllByActiveIsTrue();
+    List<Magazine> getAllByActiveIsTrueOrderById();
     Optional<Magazine> findByTitle(String title);
 }

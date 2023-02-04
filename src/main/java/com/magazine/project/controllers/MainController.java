@@ -1,6 +1,8 @@
 package com.magazine.project.controllers;
 
 import com.magazine.project.entity.User;
+import com.magazine.project.exception.IncorrectPageException;
+import com.magazine.project.models.Page;
 import com.magazine.project.security.UserDetailsSecurity;
 import com.magazine.project.services.MagazineService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -22,9 +27,20 @@ public class MainController {
     }
 
     @GetMapping({"/", "/home"})
-    public String showMainPage(Model model) {
+    public String showMainPage(Model model,
+                               @RequestParam(name = "page", required = false) Optional<Integer> page,
+                               @RequestParam(name = "size", required = false) Optional<Integer> size) throws IncorrectPageException {
         log.info("method showMainPage");
-        model.addAttribute("magazines", magazineService.getAllActive());
+        log.info("page = {}", page);
+        log.info("size = {}", size);
+        Page selectedPageOfMagazines = magazineService.getSelectedPageOfMagazines(page.orElse(1), size.orElse(9));
+        model.addAttribute("magazines", selectedPageOfMagazines.getMagazineList());
+        int currentPage = selectedPageOfMagazines.getCurrentPage();
+        model.addAttribute("currentPage", currentPage);
+        log.info("current page = {}", currentPage);
+        int lastPage = selectedPageOfMagazines.getMaxPage();
+        model.addAttribute("lastPage", lastPage);
+        log.info("last page = {}", lastPage);
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetailsSecurity principal = (UserDetailsSecurity) authentication.getPrincipal();

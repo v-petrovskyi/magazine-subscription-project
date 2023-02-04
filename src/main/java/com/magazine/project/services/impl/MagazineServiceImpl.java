@@ -1,6 +1,7 @@
 package com.magazine.project.services.impl;
 
 import com.magazine.project.entity.Magazine;
+import com.magazine.project.exception.IncorrectPageException;
 import com.magazine.project.repositories.MagazineRepository;
 import com.magazine.project.services.MagazineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,17 @@ public class MagazineServiceImpl implements MagazineService {
     public boolean delete(long id) {
         magazineRepository.delete(getById(id));
         return magazineRepository.findById(id).isEmpty();
+    }
+
+    @Override
+    public List<Magazine> getSelectedPageOfMagazines(int page, int pageSize) throws IncorrectPageException {
+        List<Magazine> all = getAll();
+        int fromIndex = (page * pageSize) - pageSize;
+        int toIndex = fromIndex + pageSize;
+        try {
+            return all.subList(fromIndex, toIndex);
+        } catch (IndexOutOfBoundsException e) {
+            throw new IncorrectPageException("page " + page + " not exist");
+        }
     }
 }

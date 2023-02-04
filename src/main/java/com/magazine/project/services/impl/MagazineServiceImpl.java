@@ -2,8 +2,10 @@ package com.magazine.project.services.impl;
 
 import com.magazine.project.entity.Magazine;
 import com.magazine.project.exception.IncorrectPageException;
+import com.magazine.project.models.Page;
 import com.magazine.project.repositories.MagazineRepository;
 import com.magazine.project.services.MagazineService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class MagazineServiceImpl implements MagazineService {
 
@@ -36,7 +39,7 @@ public class MagazineServiceImpl implements MagazineService {
 
     @Override
     public List<Magazine> getAllActive() {
-        List<Magazine> magazines = magazineRepository.getAllByActiveIsTrue();
+        List<Magazine> magazines = magazineRepository.getAllByActiveIsTrueOrderById();
         return magazines.isEmpty() ? new ArrayList<>() : magazines;
     }
 
@@ -72,12 +75,15 @@ public class MagazineServiceImpl implements MagazineService {
     }
 
     @Override
-    public List<Magazine> getSelectedPageOfMagazines(int page, int pageSize) throws IncorrectPageException {
-        List<Magazine> all = getAll();
+    public Page getSelectedPageOfMagazines(int page, int pageSize) throws IncorrectPageException {
+        List<Magazine> all = getAllActive();
         int fromIndex = (page * pageSize) - pageSize;
         int toIndex = fromIndex + pageSize;
+        if (toIndex > all.size() - 1) {
+            toIndex = all.size();
+        }
         try {
-            return all.subList(fromIndex, toIndex);
+            return new Page(all.subList(fromIndex, toIndex), page, (int) Math.ceil((double) all.size() / pageSize));
         } catch (IndexOutOfBoundsException e) {
             throw new IncorrectPageException("page " + page + " not exist");
         }

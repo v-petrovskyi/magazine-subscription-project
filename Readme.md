@@ -1,1 +1,1 @@
-# Project is not finished
+# Magazine subscription project

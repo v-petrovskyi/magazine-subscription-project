@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -50,8 +47,30 @@ public class AdminController {
         return "redirect:/home";
     }
 
+    @GetMapping("/update-magazine/{magazine_id}")
+    public String showPageForUpdateMagazine(Model model, @PathVariable Long magazine_id) {
+        log.info("method showPageForUpdateMagazine");
+        log.info("magazine_id = {}", magazine_id);
+        model.addAttribute("magazine", magazineService.getById(magazine_id));
+        return "admin/update-magazine-view";
+    }
+
+    @PostMapping("/update-magazine/{magazine_id}")
+    public String updateMagazine(@ModelAttribute("magazine") Magazine magazine, BindingResult result, @PathVariable Long magazine_id) {
+        log.info("method updateMagazine");
+        if (result.hasErrors()) {
+            log.error(result.getAllErrors().toString());
+            return "admin/update-magazine-view";
+        }
+        magazine.setId(magazine_id);
+        magazineService.update(magazine);
+        log.info(magazine.toString());
+        return "redirect:/magazine/" + magazine_id;
+    }
+
+
     @GetMapping("/all-subscriptions")
-    public String showAllSubscriptionsPage(Model model){
+    public String showAllSubscriptionsPage(Model model) {
         model.addAttribute("allSubscriptions", subscriptionService.getAll());
         log.info("method showAllSubscriptionsPage");
 
@@ -59,7 +78,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin-page")
-    public String showAdminPage(){
+    public String showAdminPage() {
         return "admin/admin-page";
     }
 }

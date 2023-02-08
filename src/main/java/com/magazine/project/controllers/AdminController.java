@@ -77,6 +77,14 @@ public class AdminController {
         return "admin/all-subscriptions-view";
     }
 
+    @GetMapping("/magazines")
+    public String showAllMagazines(Model model){
+        log.info("method showAllMagazines");
+        model.addAttribute("allMagazines", magazineService.getAll());
+        return "admin/all-magazines-view";
+    }
+
+
     @GetMapping("/admin-page")
     public String showAdminPage() {
         return "admin/admin-page";

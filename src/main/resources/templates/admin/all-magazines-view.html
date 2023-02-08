@@ -3,28 +3,42 @@
       lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Page</title>
+    <title>Magazines</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<!--
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-            crossorigin="anonymous"></script>
--->
+
 </head>
 <body>
 <div class="container">
     <div th:replace="~{fragments::nav-panel}"></div>
 
-    Admin Page
-    <br>
-    <a th:href="@{/admin/create-magazine}">Add magazine</a>
-    <br>
-    <a th:href="@{/admin/all-subscriptions}">Show all subscriptions</a>
-    <br>
-    <a th:href="@{/admin/magazines}">Show all magazines</a>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Active</th>
+            <th>Cover</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="magazine, iStat: ${allMagazines}">
+            <td th:text="${magazine.id}"></td>
+            <td>
+                <a th:href="@{/magazine/{id}(id=${magazine.id})}" th:text="${magazine.title}"></a>
+            </td>
+            <td th:text="${magazine.price}"></td>
+            <td th:text="${magazine.active}"></td>
+            <td>
+                <img th:src="${magazine.imagePath}" width="100">
+            </td>
+            <td th:text="${magazine.description}"></td>
+        </tr>
+        </tbody>
+    </table>
 
-    <div th:replace="~{fragments::footer}"></div>
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -33,6 +47,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
         integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
         crossorigin="anonymous"></script>
+
 
 </body>
 </html>
